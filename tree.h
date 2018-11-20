@@ -22,7 +22,9 @@ typedef struct node{
     Ninja* ninja;
     struct node* left;
     struct node* right;
-} t_node;
+}t_node;
+
+
 
 t_node* node_create();
 
@@ -37,6 +39,7 @@ void tree_free(t_node* tree);
 Ninja* fight(Ninja* ninja_one, Ninja* ninja_two, int attribute);
 
 void tree_print_preorder(t_node* root);
+
 
 //Entrada dos campos no txt: nome, elemento, ninjutso , genjusto , taijutso,  defesa
 //Armazenar em uma memoria de uma lista duplamente encadeada
@@ -77,11 +80,19 @@ Ninja* print(t_list* lista);
 
 t_list* rando(Ninja* ninja, t_list* lista, int posicao);
 
-void imprime_ninja(Ninja* ninja);
+void imprime_ninja(Ninja* ninja, int usado);
 
 void tree_no(t_node* root, t_list* lista);
-Ninja* tree_leaf(t_node* root, int x);
+
+int tree_leaf(t_node* root, Ninja* ninja);
+
 Ninja* atributos(t_list* lista);
+
+void printLevelOrder(t_node* raiz);
+void printGivenLevel(t_node* root, int level); 
+int height(t_node* root); 
+
+
 #endif
 
 
