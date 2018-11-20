@@ -4,9 +4,11 @@
 #include "tree.h"
 #include <locale.h>
 #include "time.h"
+#include "log.h"
 
 int main () {
-
+    srand(time(NULL));
+	cleanLoggi();
     setlocale(LC_CTYPE,"pt_BR.UTF-8");
     FILE *ninjas;
     ninjas = fopen ("ninjas.txt", "r");
@@ -18,41 +20,34 @@ int main () {
         printf("Arquivo aberto com sucesso");
     }
     
-    lista = ler_ninjas(ninjas);
-
-    how(lista);
-    
-    //print(lista);
+    lista = ler_ninjas(ninjas); 
 
     printf("Escolha um ninja: \n");
     atributos(lista);
 
     int x;
     do{     
-    scanf("%d", &x);
+        scanf("%d", &x);
     }while(x < 0 || x >= 16);
 
     Ninja* aux = list_position(lista, x);   
-    
-    imprime_ninja(aux);
 
     t_node* arvore = tree_create();
-    
+
     tree_no(arvore, lista);
-    
-    
-    int choose;
-    printf("Escolha o seu atributo\n");
-    scanf("%d", &choose);
-    
-//    tree_print_preorder(arvore);
 
-    tree_leaf(arvore, choose);
+    for(int i = 1;i < height(arvore); i++){
+        system("clear");
+        printf("\033[1;33m\n\nETAPA %d\n\033[0m", i);
+		printf("\n");
+        
+        if(tree_leaf(arvore, aux) == 1)
+			break;
+    }
+	
+    printLoggi();
+    
     printf("\n\n");
-
-    tree_print_preorder(arvore);
-    
-
 
     fclose(ninjas);
 

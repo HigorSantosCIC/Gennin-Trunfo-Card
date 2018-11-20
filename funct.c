@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include "log.h"
 
 t_node* node_create(){
     t_node* ptr = (t_node*) malloc(sizeof(t_node));
@@ -83,34 +84,38 @@ void tree_no(t_node* root, t_list* lista){
     }
 }
 
-Ninja* largura(t_node* raiz, Ninja* ninja){
-    if(raiz == NULL){
-        return 0;
-    }
-    else if(raiz->ninja == ninja)
-        return 1;
-
-    else if (largura(raiz->left, ninja))
-        return 1;
-    else
-    return (largura(raiz->right, ninja));
-}
-
-
-
-Ninja* tree_leaf(t_node* root, int x){    
-        Ninja* one;
-        Ninja* two;
-    if(root != NULL) {
+int tree_leaf(t_node* root, Ninja* ninja){    
+    static int choose = 0;
+    static int chosen = 0;
+    if(root != NULL && root->left != NULL && root->right != NULL) {
         if(root->left->ninja != NULL && root->right->ninja != NULL){
-            one = root->left->ninja;
-            two = root->right->ninja;
-            root->ninja = fight(one, two, x);
-            return root->ninja;
+    			Ninja* one = root->left->ninja;
+    			Ninja* two = root->right->ninja;
+            if(ninja == root->left->ninja || ninja == root->right->ninja){
+				    chosen = choose;
+					Ninja *eu = ninja == one ? one : two, *tu = ninja == one ? two : one;
+                    //system("clear");
+					printf("\n\033[1;34mSeu ninja: %s\nAdversário: %s\033[0m\n", eu->nome, tu->nome);
+                    imprime_ninja(ninja, chosen);
+            do{
+        	        printf("\nEscolha o seu atributo (%d usado)\n", chosen);
+                    scanf("%d", &choose);
+            }while(choose == chosen || (choose <= 0 || choose > 4));
+                root->ninja = fight(one, two, choose);
+				loggi(one, two, choose);
+
+                if(root->ninja != ninja)
+					return 1;
+            }else{
+            	int atributo_rand = (rand()%4) + 1;
+                loggi(one, two, atributo_rand);
+            	root->ninja = fight(one, two, atributo_rand);
+						}
         }
-        tree_leaf(root->left, x);
-        tree_leaf(root->right, x);
+       	    if(tree_leaf(root->left,ninja) != 0) return 1;
+        	if(tree_leaf(root->right,ninja) != 0) return 1;
   }
+    return 0;
 }
 
 Ninja* fight(Ninja* ninja_one, Ninja* ninja_two, int attribute){
@@ -120,30 +125,31 @@ Ninja* fight(Ninja* ninja_one, Ninja* ninja_two, int attribute){
                 return ninja_one;
             }else{
                 return ninja_two;
-        }
+            }
             break;
         case 2: 
             if(ninja_one->genjutso >= ninja_two->genjutso){
                 return ninja_one;
             }else{
                 return ninja_two;
-        }
+            }
             break;
         case 3: 
             if(ninja_one->taijutso >= ninja_two->taijutso){
                 return ninja_one;
             }else{
                 return ninja_two;
-        }
+            }
             break;
         case 4: 
             if(ninja_one->defesa >= ninja_two->defesa){
                 return ninja_one;
             }else{
                 return ninja_two;
-        }
+            }
             break;
         default:
+            printf("a");
             break;
     }
 }
@@ -160,18 +166,34 @@ void tree_print_preorder(t_node* root){
 }//end print arvore()
 
 //Imprime time
-void imprime_ninja(Ninja* ninja){
+void imprime_ninja(Ninja* ninja, int usado){ 
     if(ninja != NULL){
         if(ninja->nome != NULL)
-            printf("Seu personagem: |%s|\n", ninja->nome);
-            printf("Elemento: |%s|\n1) Ninjutso: %d\n2) Genjustso: %d\n3) Taijutso: %d\n4) Defesa: %d\n\n",ninja->elemento, ninja->ninjutso, ninja->genjutso, ninja->taijutso, ninja->defesa);
+            printf("Seu personagem:|%s|\n", ninja->nome); 
+						switch(usado){
+							case 1:
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m Ninjutso: XX\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m Taijutso: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->genjutso, ninja->taijutso, ninja->defesa);
+								break;
+							case 2:
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m Ninjutso: %d\n\e[1;35m2)\e[0m Genjustso: XX\n\e[1;35m3)\e[0m Taijutso: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutso, ninja->taijutso, ninja->defesa);
+								break;
+							case 3:
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m Ninjutso: %d\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m Taijutso: XX\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutso, ninja->genjutso, ninja->defesa);
+								break;
+							case 4:
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m Ninjutso: %d\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m Taijutso: %d\n\e[1;35m4)\e[0m Defesa: XX\n\n",ninja->elemento, ninja->ninjutso, ninja->genjutso, ninja->taijutso);
+								break;
+							default:
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m Ninjutso: %d\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m Taijutso: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutso, ninja->genjutso, ninja->taijutso, ninja->defesa);
+								break;
+						}	
     }
 }//end imprime time
 
 void print_ninja(Ninja* ninja){
     if(ninja != NULL){
         if(ninja->nome != NULL)
-            printf("Ninja: |%s|\n", ninja->nome);
+            printf("Ninja:|%s|\n", ninja->nome);
         
     }
 }//end imprime time
@@ -310,8 +332,8 @@ t_list* ler_ninjas(FILE *ninjas){
     Ninja* ler;
 
     while(fscanf(ninjas, "%[^,]s", name) == 1){
-        fscanf(ninjas, "%s", a);
-        fscanf(ninjas, "%[^,]", elemento);
+        fscanf(ninjas, "%2[ ,]s", a);
+        fscanf(ninjas, "%[^,]s", elemento);
         fscanf(ninjas, "%s", a);
         fscanf(ninjas, "%d, %d, %d, %d\n", &ninjutso, &genjutso, &taijutso, &defesa);
 
@@ -340,7 +362,7 @@ Ninja* print(t_list* lista){
 
 t_list* rando(Ninja* ninja, t_list* lista, int posicao){
         while(lista->much_ninja == 17){
-            srand(time(NULL));
+            //srand(time(NULL));
             posicao = rand()%32;
             ninja = list_position(lista, posicao);
             if(ninja != NULL){
@@ -353,7 +375,7 @@ Ninja* atributos(t_list* lista){
     for(int i = 0; i < lista->much_ninja;i++){
 
         Ninja* Japa = list_position(lista, i);
-        int x = rand()%3;
+        int x = rand()%4;
 
         printf("Ninja %d:\n", i);
         switch(x){
@@ -380,3 +402,48 @@ Ninja* atributos(t_list* lista){
         }
     }
 }
+
+
+
+void printGivenLevel(t_node* raiz, int level){
+    static int nivel_atual = -1;
+		nivel_atual++;
+    if(raiz != NULL)
+    	if(level == nivel_atual && raiz->ninja != NULL){
+      	  printf("%s [%d] \n", raiz->ninja->nome, raiz->ninja->ninjutso);
+    	}
+    	else
+    	{
+      	  printGivenLevel(raiz->left, level);
+        	printGivenLevel(raiz->right, level);
+    	}
+		nivel_atual--;
+}
+
+int height(t_node* no){ 
+    if (no==NULL) 
+        return 0; 
+    else
+    { 
+        int lheight = height(no->left); 
+        int rheight = height(no->right); 
+  
+        if (lheight > rheight) 
+            return(lheight+1); 
+        else return(rheight+1); 
+    } 
+} 
+
+void printLevelOrder(t_node* raiz){
+    int h = height(raiz);
+    for(int i = 0; i < h; i++){
+        printGivenLevel(raiz, i);
+				printf("\n");
+    }
+
+}
+
+
+/* void whoaiam(t_node* raiz){
+    int h
+} */
