@@ -24,8 +24,6 @@ typedef struct node{
     struct node* right;
 }t_node;
 
-
-
 t_node* node_create();
 
 Ninja* ninja_create(char* _nome, char* _elemento, int _ninjutso, int _genjutso, int _taijutso, int _defesa);
@@ -89,7 +87,9 @@ int tree_leaf(t_node* root, Ninja* ninja);
 Ninja* atributos(t_list* lista);
 
 void printLevelOrder(t_node* raiz);
+
 void printGivenLevel(t_node* root, int level); 
+
 int height(t_node* root); 
 
 
