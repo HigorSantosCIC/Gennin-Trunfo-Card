@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include "ninja.h"
 #include "log.h"
 
 //Funçoes com respeito a arvore e elemento
@@ -106,10 +107,10 @@ void tree_no(t_node* root, t_list* lista){
  
 int tree_leaf(t_node* root, Ninja* ninja){    
     
-    static int choose = 0;
-    static int chosen = 0;
 
     if(root != NULL && root->left != NULL && root->right != NULL) {
+        static int choose = 0;
+        static int chosen = 0;
         //no folha
         if(root->left->ninja != NULL && root->right->ninja != NULL){
             Ninja* one = root->left->ninja;
@@ -124,18 +125,19 @@ int tree_leaf(t_node* root, Ninja* ninja){
                     imprime_ninja(ninja, chosen);
                     printf("\n\033[1;34mSeu Adversário: %s\033[0m\n",tu->nome);
                         do{
-        	                printf("\nSelecione um atributo = \n");
+        	                printf("\nSelecione um atributo : ");
                             scanf("%d", &choose);
                         } while(choose == chosen || choose <= 0 || choose > 4);
                 
                     root->ninja = fight(one, two, choose);
                     system("clear");
+                    loggi(one, two, choose);
+                    
                     if(root->ninja == ninja)
                         winnerLoggi(one, two, choose);
                     else
                         loserLoggi(one, two, choose);
 
-                    loggi(one, two, choose);
                     if(root->ninja != ninja)
 				        return 1;
             }else{

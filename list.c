@@ -184,19 +184,19 @@ void imprime_ninja(Ninja* ninja, int usado){
             //printf("Seu personagem:|%s|\n", ninja->nome); 
 						switch(usado){
 							case 1:
-            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: XX\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m taijutsu: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->genjutsu, ninja->taijutsu, ninja->defesa);
+            		printf("\033[1;34mElemento:\033[0m%s\n\e[1;35m1)\e[0m ninjutsu: XX\n\e[1;35m2)\e[0m Genjutsu: %d\n\e[1;35m3)\e[0m taijutsu: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->genjutsu, ninja->taijutsu, ninja->defesa);
 								break;
 							case 2:
-            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: %d\n\e[1;35m2)\e[0m Genjustso: XX\n\e[1;35m3)\e[0m taijutsu: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutsu, ninja->taijutsu, ninja->defesa);
+            		printf("\033[1;34mElemento:\033[0m%s\n\e[0m ninjutsu: %d\n\e[1;35m2)\e[0m Genjutsu: XX\n\e[1;35m3)\e[0m taijutsu: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutsu, ninja->taijutsu, ninja->defesa);
 								break;
 							case 3:
-            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: %d\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m taijutsu: XX\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutsu, ninja->genjutsu, ninja->defesa);
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: %d\n\e[1;35m2)\e[0m Genjutsu: %d\n\e[1;35m3)\e[0m taijutsu: XX\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutsu, ninja->genjutsu, ninja->defesa);
 								break;
 							case 4:
-            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: %d\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m taijutsu: %d\n\e[1;35m4)\e[0m Defesa: XX\n\n",ninja->elemento, ninja->ninjutsu, ninja->genjutsu, ninja->taijutsu);
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: %d\n\e[1;35m2)\e[0m Genjutsu: %d\n\e[1;35m3)\e[0m taijutsu: %d\n\e[1;35m4)\e[0m Defesa: XX\n\n",ninja->elemento, ninja->ninjutsu, ninja->genjutsu, ninja->taijutsu);
 								break;
 							default:
-            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: %d\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m taijutsu: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutsu, ninja->genjutsu, ninja->taijutsu, ninja->defesa);
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: %d\n\e[1;35m2)\e[0m Genjutsu: %d\n\e[1;35m3)\e[0m taijutsu: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutsu, ninja->genjutsu, ninja->taijutsu, ninja->defesa);
 								break;
 						}	
     }
