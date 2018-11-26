@@ -30,13 +30,3 @@ char * getAttName(int attribute){
 	return att_name;
 }
 
-int getValue(int reset){
-	static int value = 0;
-	if(reset){
-		value = 0;
-		return -1;
-	}else{
-		value++;
-	}
-	return value;
-}

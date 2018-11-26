@@ -106,8 +106,6 @@ void tree_no(t_node* root, t_list* lista){
 //TORNEIO
  
 int tree_leaf(t_node* root, Ninja* ninja){    
-    
-
     if(root != NULL && root->left != NULL && root->right != NULL) {
         static int choose = 0;
         static int chosen = 0;
@@ -132,7 +130,7 @@ int tree_leaf(t_node* root, Ninja* ninja){
                     root->ninja = fight(one, two, choose);
                     system("clear");
                     loggi(one, two, choose);
-                    
+
                     if(root->ninja == ninja)
                         winnerLoggi(one, two, choose);
                     else

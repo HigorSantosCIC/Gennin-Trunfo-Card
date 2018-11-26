@@ -74,38 +74,38 @@ void matchLoggi(char* match){
 
 void loserLoggi(Ninja* ninja, Ninja* ninja2, int atributo){
 	system("clear");
-	matchLoggi(NULL);
-	printf("\e[1;33mResultado: %s (%d) X (%d) %s\n", ninja->nome, getAtt(ninja, atributo), getAtt(ninja2, atributo), ninja2->nome);
-	printf("Ninja vencedor = %s\nAtributo usado = %s\e[0m\n", ninja->nome, getAttName(atributo));
-	//printf("\e[1;33m Resultado: %s X %s\n", ninja->nome, ninja2->nome);
-	//printf("Ninja vencedor = %s\nAtributo usado = %d\e[0m\n", ninja->nome, atributo);
+//	printf("\e[1;33mResultado: %s (%d) X (%d) %s\n", ninja->nome, getAtt(ninja, atributo), getAtt(ninja2, atributo), ninja2->nome);
+//	printf("Ninja vencedor = %s\nAtributo usado = %s\e[0m\n", ninja->nome, getAttName(atributo));
 
 	printf("\e[1;33m   ___   ___   ___   ___    ___   _   _\n");   
     printf("  | _ \\ | __| | _ \\ |   \\  | __| | | | | \n");  
     printf("  |  _/ | _|  |   / | |) | | _|  | |_| | \n");  
     printf("  |_|   |___| |_|_\\ |___/  |___|  \\___/  \n\e[0m");  
 	printf("\n") ;
+	matchLoggi(NULL);
 	printf("Pressione qualquer tecla para continuar\n");
 	
-	char pause[300];
-	scanf("%s", pause);
+	scanf("%*[^\n]s");
+	scanf("%*c");
+	scanf("%*c");
 	system("clear");
 }
 
 void winnerLoggi(Ninja* ninja,Ninja* ninja2, int atributo){
 	system("clear");
-	matchLoggi(NULL);
-	printf("\e[1;33mResultado: %s (%d) X (%d) %s\n", ninja->nome, getAtt(ninja, atributo), getAtt(ninja2, atributo), ninja2->nome);
-	printf("Ninja vencedor = %s\nAtributo usado = %s\e[0m\n", ninja->nome, getAttName(atributo));
+//	printf("\e[1;33mResultado: %s (%d) X (%d) %s\n", ninja->nome, getAtt(ninja, atributo), getAtt(ninja2, atributo), ninja2->nome);
+//	printf("Ninja vencedor = %s\nAtributo usado = %s\e[0m\n", ninja->nome, getAttName(atributo));
 
 	printf("\e[1;33m     __   _____ _  _  ___ ___ _   _\n"); 
 	printf("     \\ \\ / / __| \\| |/ __| __| | | |\n");
 	printf("      \\ V /| _|| .` | (__| _|| |_| |\n");
 	printf("       \\_/ |___|_|\\_|\\___|___|\\___/\n\e[0m");
 	printf("\n");
+	matchLoggi(NULL);
 	printf("Pressione qualquer tecla para continuar\n");
-	char pause[300];
-	scanf("%s", pause);
+	scanf("%*[^\n]s");
+	scanf("%*c");
+	scanf("%*c");
 	system("clear");
 }
 
