@@ -10,9 +10,9 @@
 typedef struct {
     char* nome;
     char* elemento;
-    int ninjutso; // De zero a cem.
-    int genjutso;
-    int taijutso;
+    int ninjutsu; // De zero a cem.
+    int genjutsu;
+    int taijutsu;
     int defesa;
 } Ninja;
 
@@ -26,7 +26,7 @@ typedef struct node{
 
 t_node* node_create();
 
-Ninja* ninja_create(char* _nome, char* _elemento, int _ninjutso, int _genjutso, int _taijutso, int _defesa);
+Ninja* ninja_create(char* _nome, char* _elemento, int _ninjutsu, int _genjutsu, int _taijutsu, int _defesa);
 
 void ninja_free(Ninja* ninja);
 
@@ -39,7 +39,7 @@ Ninja* fight(Ninja* ninja_one, Ninja* ninja_two, int attribute);
 void tree_print_preorder(t_node* root);
 
 
-//Entrada dos campos no txt: nome, elemento, ninjutso , genjusto , taijutso,  defesa
+//Entrada dos campos no txt: nome, elemento, ninjutsu , genjusto , taijutsu,  defesa
 //Armazenar em uma memoria de uma lista duplamente encadeada
 
 // Estrutura da Lista Duplamente Encadeada
@@ -92,40 +92,4 @@ void printGivenLevel(t_node* root, int level);
 
 int height(t_node* root); 
 
-
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

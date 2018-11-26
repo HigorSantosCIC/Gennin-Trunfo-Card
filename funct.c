@@ -20,7 +20,7 @@ t_node* node_create(){
 }
 
 //cria um elemento ninja
-Ninja* ninja_create(char* _nome, char* _elemento, int _ninjutso, int _genjutso, int _taijutso, int _defesa){
+Ninja* ninja_create(char* _nome, char* _elemento, int _ninjutsu, int _genjutsu, int _taijutsu, int _defesa){
     
     Ninja* ptr = (Ninja*) malloc(sizeof(Ninja));
 
@@ -30,9 +30,9 @@ Ninja* ninja_create(char* _nome, char* _elemento, int _ninjutso, int _genjutso, 
             if(ptr->nome != NULL && ptr->elemento != NULL){
                 strcpy(ptr->nome, _nome);
                 strcpy(ptr->elemento, _elemento);
-                ptr->ninjutso = _ninjutso;
-                ptr->genjutso = _genjutso;
-                ptr->taijutso =_taijutso;
+                ptr->ninjutsu = _ninjutsu;
+                ptr->genjutsu = _genjutsu;
+                ptr->taijutsu =_taijutsu;
                 ptr->defesa = _defesa;
             }
     }
@@ -44,9 +44,9 @@ Ninja* ninja_create(char* _nome, char* _elemento, int _ninjutso, int _genjutso, 
 
 void ninja_free(Ninja* ninja){
     if(!ninja)
-    free(ninja->nome);
-    free(ninja->elemento);
-    free(ninja);
+        free(ninja->nome);
+        free(ninja->elemento);
+        free(ninja);
 }
 
 //Adiciona nó de maneira recursiva
@@ -105,8 +105,10 @@ void tree_no(t_node* root, t_list* lista){
 //TORNEIO
  
 int tree_leaf(t_node* root, Ninja* ninja){    
+    
     static int choose = 0;
     static int chosen = 0;
+
     if(root != NULL && root->left != NULL && root->right != NULL) {
         //no folha
         if(root->left->ninja != NULL && root->right->ninja != NULL){
@@ -121,26 +123,30 @@ int tree_leaf(t_node* root, Ninja* ninja){
                     //imprime o ninja com XX
                     imprime_ninja(ninja, chosen);
                     printf("\n\033[1;34mSeu Adversário: %s\033[0m\n",tu->nome);
-            do{
-        	        printf("\nSelecione um atributo = \n");
-                    scanf("%d", &choose);
-            }while(choose == chosen || (choose <= 0 || choose > 4));
-                root->ninja = fight(one, two, choose);
-				if(root->ninja == ninja){
-                    winnerLoggi(one, two, choose);
-                }else
-                    loserLoggi(one, two, choose);
-                    
-                loggi(one, two, choose);
-            if(root->ninja != ninja)
-				return 1;
+                        do{
+        	                printf("\nSelecione um atributo = \n");
+                            scanf("%d", &choose);
+                        } while(choose == chosen || choose <= 0 || choose > 4);
+                
+                    root->ninja = fight(one, two, choose);
+                    system("clear");
+                    if(root->ninja == ninja)
+                        winnerLoggi(one, two, choose);
+                    else
+                        loserLoggi(one, two, choose);
+
+                    loggi(one, two, choose);
+                    if(root->ninja != ninja)
+				        return 1;
             }else{
             	int atributo_rand = (rand()%4) + 1;
                 loggi(one, two, atributo_rand);
             	root->ninja = fight(one, two, atributo_rand);
-				}
-            }
-
+			}           
+            root->left->ninja = NULL;
+            root->right->ninja = NULL;
+        }
+        
        	    if(tree_leaf(root->left,ninja) != 0) return 1;
         	if(tree_leaf(root->right,ninja) != 0) return 1;
   }
@@ -153,21 +159,21 @@ int tree_leaf(t_node* root, Ninja* ninja){
 Ninja* fight(Ninja* ninja_one, Ninja* ninja_two, int attribute){
     switch(attribute){
         case 1: 
-            if(ninja_one->ninjutso >= ninja_two->ninjutso){
+            if(ninja_one->ninjutsu >= ninja_two->ninjutsu){
                 return ninja_one;
             }else{
                 return ninja_two;
             }
             break;
         case 2: 
-            if(ninja_one->genjutso >= ninja_two->genjutso){
+            if(ninja_one->genjutsu >= ninja_two->genjutsu){
                 return ninja_one;
             }else{
                 return ninja_two;
             }
             break;
         case 3: 
-            if(ninja_one->taijutso >= ninja_two->taijutso){
+            if(ninja_one->taijutsu >= ninja_two->taijutsu){
                 return ninja_one;
             }else{
                 return ninja_two;
@@ -197,21 +203,18 @@ void tree_print_preorder(t_node* root){
     tree_print_preorder(root->right);
 }//end print arvore()
 
-
-
-
 void printGivenLevel(t_node* raiz, int level){
     static int nivel_atual = -1;
 		nivel_atual++;
     if(raiz != NULL)
     	if(level == nivel_atual && raiz->ninja != NULL){
-      	  printf("%s [%d] \n", raiz->ninja->nome, raiz->ninja->ninjutso);
+      	  printf("%s [%d] \n", raiz->ninja->nome, raiz->ninja->ninjutsu);
     	}
-    	else
-    	{
+    	else{
       	printGivenLevel(raiz->left, level);
         printGivenLevel(raiz->right, level);
     	}
+
 		nivel_atual--;
 }
 
@@ -233,11 +236,7 @@ void printLevelOrder(t_node* raiz){
     int h = height(raiz);
     for(int i = 0; i < h; i++){
         printGivenLevel(raiz, i);
-				printf("\n");
+			printf("\n");
     }
 
 }
-
- /* void whoaiam(t_node* raiz){
-    int h
-} */

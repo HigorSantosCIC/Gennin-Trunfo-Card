@@ -129,7 +129,7 @@ t_list* ler_ninjas(FILE *ninjas){
     char name[20];
     char elemento[20];	
     char a[20];
-    int ninjutso, genjutso , taijutso, defesa;
+    int ninjutsu, genjutsu , taijutsu, defesa;
     int posicao;
     
     t_list* lista = creat_list();
@@ -140,9 +140,9 @@ t_list* ler_ninjas(FILE *ninjas){
         fscanf(ninjas, "%2[ ,]s", a);
         fscanf(ninjas, "%[^,]s", elemento);
         fscanf(ninjas, "%s", a);
-        fscanf(ninjas, "%d, %d, %d, %d\n", &ninjutso, &genjutso, &taijutso, &defesa);
+        fscanf(ninjas, "%d, %d, %d, %d\n", &ninjutsu, &genjutsu, &taijutsu, &defesa);
 
-        ler = ninja_create(name, elemento, ninjutso, genjutso, taijutso, defesa);
+        ler = ninja_create(name, elemento, ninjutsu, genjutsu, taijutsu, defesa);
         insert_list(lista, ler, posicao);
         rando(ler, lista, posicao);
     }
@@ -159,7 +159,7 @@ Ninja* how(t_list* lista){
 Ninja* print(t_list* lista){
     for(int i = 0; i < lista->much_ninja;i++){
         Ninja* Japa = list_position(lista, i);
-        printf("\n%s  -> %s  -> %d -> %d -> %d -> %d\n", Japa->nome, Japa->elemento, Japa->ninjutso, Japa->genjutso, Japa->taijutso, Japa->defesa);
+        printf("\n%s  -> %s  -> %d -> %d -> %d -> %d\n", Japa->nome, Japa->elemento, Japa->ninjutsu, Japa->genjutsu, Japa->taijutsu, Japa->defesa);
         
     }
 }
@@ -184,19 +184,19 @@ void imprime_ninja(Ninja* ninja, int usado){
             //printf("Seu personagem:|%s|\n", ninja->nome); 
 						switch(usado){
 							case 1:
-            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m Ninjutso: XX\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m Taijutso: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->genjutso, ninja->taijutso, ninja->defesa);
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: XX\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m taijutsu: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->genjutsu, ninja->taijutsu, ninja->defesa);
 								break;
 							case 2:
-            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m Ninjutso: %d\n\e[1;35m2)\e[0m Genjustso: XX\n\e[1;35m3)\e[0m Taijutso: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutso, ninja->taijutso, ninja->defesa);
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: %d\n\e[1;35m2)\e[0m Genjustso: XX\n\e[1;35m3)\e[0m taijutsu: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutsu, ninja->taijutsu, ninja->defesa);
 								break;
 							case 3:
-            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m Ninjutso: %d\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m Taijutso: XX\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutso, ninja->genjutso, ninja->defesa);
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: %d\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m taijutsu: XX\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutsu, ninja->genjutsu, ninja->defesa);
 								break;
 							case 4:
-            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m Ninjutso: %d\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m Taijutso: %d\n\e[1;35m4)\e[0m Defesa: XX\n\n",ninja->elemento, ninja->ninjutso, ninja->genjutso, ninja->taijutso);
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: %d\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m taijutsu: %d\n\e[1;35m4)\e[0m Defesa: XX\n\n",ninja->elemento, ninja->ninjutsu, ninja->genjutsu, ninja->taijutsu);
 								break;
 							default:
-            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m Ninjutso: %d\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m Taijutso: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutso, ninja->genjutso, ninja->taijutso, ninja->defesa);
+            		printf("Elemento:|%s|\n\e[1;35m1)\e[0m ninjutsu: %d\n\e[1;35m2)\e[0m Genjustso: %d\n\e[1;35m3)\e[0m taijutsu: %d\n\e[1;35m4)\e[0m Defesa: %d\n\n",ninja->elemento, ninja->ninjutsu, ninja->genjutsu, ninja->taijutsu, ninja->defesa);
 								break;
 						}	
     }
@@ -220,20 +220,20 @@ Ninja* atributos(t_list* lista){
         printf("Ninja %d:\n", i);
         switch(x){
             case 0:
-                printf("Ninjutso: %d Genjutso: ?? Taijutso: ?? Defesa: ??\n\n", Japa->ninjutso);
+                printf("ninjutsu: %d genjutsu: ?? taijutsu: ?? Defesa: ??\n\n", Japa->ninjutsu);
             break;
 
             case 1:
-                printf("Ninjutso: ?? Genjutso: %d Taijutso: ?? Defesa: ??\n\n", Japa->genjutso);
+                printf("ninjutsu: ?? genjutsu: %d taijutsu: ?? Defesa: ??\n\n", Japa->genjutsu);
                 
             break;
 
             case 2:
-                printf("Ninjutso: ?? Genjutso: ?? Taijutso: %d Defesa: ??\n\n", Japa->taijutso);
+                printf("ninjutsu: ?? genjutsu: ?? taijutsu: %d Defesa: ??\n\n", Japa->taijutsu);
                 
             break;
             case 3:
-               printf("Ninjutso: ?? Genjutso: ?? Taijutso: ?? Defesa: %d \n\n", Japa->defesa);
+               printf("ninjutsu: ?? genjutsu: ?? taijutsu: ?? Defesa: %d \n\n", Japa->defesa);
                 
             break;
             default:

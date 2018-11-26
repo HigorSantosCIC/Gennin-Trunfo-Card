@@ -67,8 +67,8 @@ void loserLoggi(Ninja* ninja, Ninja* ninja2, int atributo){
 	printf("\n") ;
 	printf("Pressione qualquer tecla para continuar\n");
 	
-	int pause;
-	scanf("%d", &pause);
+	char pause[300];
+	scanf("%s", pause);
 	system("clear");
 }
 
@@ -83,8 +83,8 @@ void winnerLoggi(Ninja* ninja,Ninja* ninja2, int atributo){
 	printf("       \\_/ |___|_|\\_|\\___|___|\\___/\n\e[0m");
 	printf("\n");
 	printf("Pressione qualquer tecla para continuar\n");
-	int pause;
-	scanf("%d", &pause);
+	char pause[300];
+	scanf("%s", pause);
 	system("clear");
 }
 
@@ -120,7 +120,6 @@ int keepLoggi(){
 
 	srand(time(NULL));
 	cleanLoggi();
-    setlocale(LC_CTYPE,"pt_BR.UTF-8");
     FILE *ninjas;
     ninjas = fopen ("ninjas.txt", "r");
     t_list* lista;
@@ -145,13 +144,12 @@ int keepLoggi(){
     t_node* arvore = tree_create();
     
     tree_no(arvore, lista);
-
+	
     for(int i = 1;i < height(arvore); i++){
         printf("\033[1;33m\n\nETAPA %d\n\033[0m", i);
 		printf("\n");
         if(tree_leaf(arvore, aux) == 1)
 		    break;
-            
     }
 
 	//system("clear");
