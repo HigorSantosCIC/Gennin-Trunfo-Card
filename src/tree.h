@@ -52,9 +52,9 @@ typedef struct ninja{
 
 // Aux list struct
 typedef struct aux_lista{
-    t_elemento* primeiro; //Referencia para o primeiro elemento da lista
-    t_elemento* ultimo;   //Referencia para o ultimo elemento da lista
-    int much_ninja;    //Contador de times
+    t_elemento* primeiro;
+    t_elemento* ultimo;
+    int much_ninja;
 }t_list; 
 
 t_elemento* create_element(Ninja* ninja);
