@@ -4,19 +4,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//Assinaturas: funçoes relacionadas ao trabalho 2.
+// Declaration of struct
 
-// Estrutura que representa os ninjas
+// Type struct of the ninja
 typedef struct {
     char* nome;
     char* elemento;
-    int ninjutsu; // De zero a cem.
+    int ninjutsu;
     int genjutsu;
     int taijutsu;
     int defesa;
 } Ninja;
 
-//Estrutura que representa os ninja
+// Struct of node (tree)
 
 typedef struct node{
     Ninja* ninja;
@@ -39,17 +39,18 @@ Ninja* fight(Ninja* ninja_one, Ninja* ninja_two, int attribute);
 void tree_print_preorder(t_node* root);
 
 
-//Entrada dos campos no txt: nome, elemento, ninjutsu , genjusto , taijutsu,  defesa
-//Armazenar em uma memoria de uma lista duplamente encadeada
+//Input from txt: nome, elemento, ninjutsu , genjusto , taijutsu, defesa
 
-// Estrutura da Lista Duplamente Encadeada
+// Store in double linked list in memory
+
+// Struct of ninja with double linked list
 typedef struct ninja{
     Ninja* ninja;
     struct ninja* proximo;
     struct ninja* anterior;
  } t_elemento;
 
-//Estrutura Auxiliar da lista
+// Aux list struct
 typedef struct aux_lista{
     t_elemento* primeiro; //Referencia para o primeiro elemento da lista
     t_elemento* ultimo;   //Referencia para o ultimo elemento da lista
