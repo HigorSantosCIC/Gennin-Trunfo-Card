@@ -1,242 +1,271 @@
-#include "tree.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include "ninja.h"
-#include "log.h"
+#include <dataStructure.h>
+#include <utilsMethods.h>
 
-//Funçoes com respeito a arvore e elemento
+I want to include utilsMethods.h
 
+nodeNinja* createNode(){
+    nodeNinja* ptrNode = (nodeNinja*) malloc(sizeof(nodeNinja));
 
-//cria e inicializa um no
-t_node* node_create(){
-    t_node* ptr = (t_node*) malloc(sizeof(t_node));
-    if(ptr != NULL){
-        ptr->ninja = NULL;
-        ptr->left = NULL;
-        ptr->right = NULL;
+    if(ptrNode != NULL){
+        ptrNode->ninja = NULL;
+        ptrNode->left = NULL;
+        ptrNode->right = NULL;
+    } else {
+        fprintf(stderr, "Error: Memory allocation for nodeNinja failed.\n");
+        return NULL;
     }
-    return ptr;
+
+    printf("Created node at address: %p\n", (void*) ptrNode);
+    return ptrNode;
 }
 
-//cria um elemento ninja
-Ninja* ninja_create(char* _nome, char* _elemento, int _ninjutsu, int _genjutsu, int _taijutsu, int _defesa){
-    
-    Ninja* ptr = (Ninja*) malloc(sizeof(Ninja));
+Ninja* createNinja(char* name, char* element, int ninjutsu, int genjutsu, int taijutsu, int block) {
+    // Allocate memory for the Ninja structure
+    Ninja* elementNinja = (Ninja*) malloc(sizeof(Ninja));
 
-    if(ptr != NULL){
-        ptr->nome = (char*) malloc(sizeof(strlen(_nome)+1 ));
-        ptr->elemento = (char*) malloc(sizeof(strlen(_elemento)+1 ));
-            if(ptr->nome != NULL && ptr->elemento != NULL){
-                strcpy(ptr->nome, _nome);
-                strcpy(ptr->elemento, _elemento);
-                ptr->ninjutsu = _ninjutsu;
-                ptr->genjutsu = _genjutsu;
-                ptr->taijutsu =_taijutsu;
-                ptr->defesa = _defesa;
-            }
+    if (elementNinja == NULL) {
+        fprintf(stderr, "Error: Memory allocation for Ninja failed.\n");
+        return NULL;
     }
-    return ptr;
+
+    // Allocate memory for name
+    elementNinja->name = (char*) malloc(strlen(name) + 1); // +1 for null terminator
+    if (elementNinja->name == NULL) {
+        fprintf(stderr, "Error: Memory allocation for Ninja name failed.\n");
+        free(elementNinja);
+        return NULL;
+    }
+
+    // Allocate memory for element
+    elementNinja->element = (char*) malloc(strlen(element) + 1); // +1 for null terminator
+    if (elementNinja->element == NULL) {
+        fprintf(stderr, "Error: Memory allocation for Ninja element failed.\n");
+        free(elementNinja->name);
+        free(elementNinja);
+        return NULL;
+    }
+
+    // Copy strings and assign other fields
+    strcpy(elementNinja->name, name);
+    strcpy(elementNinja->element, element);
+    elementNinja->ninjutsu = ninjutsu;
+    elementNinja->genjutsu = genjutsu;
+    elementNinja->taijutsu = taijutsu;
+    elementNinja->block = block;
+
+    return elementNinja;
 }
 
-
-//limpa memoria do elemento ninja
-
-void ninja_free(Ninja* ninja){
-    if(!ninja)
-        free(ninja->nome);
-        free(ninja->elemento);
+void freeMemoryNinja(Ninja* ninja) {
+    if (ninja) {
+        free(ninja->name);
+        free(ninja->element);
         free(ninja);
+    }
 }
 
-//Adiciona nó de maneira recursiva
+void addNode(nodeNinja* root) {
+    if (root == NULL) {
+        fprintf(stderr, "Error: Root node is NULL.\n");
+        return;
+    }
 
-void adicionar_no(t_node* raiz){
-    if(raiz->left != NULL){
-        adicionar_no(raiz->left);
-    }else{
-        raiz->left = node_create();
+    // Traverse and add to the left branch
+    if (root->left != NULL) {
+        addNode(root->left);
+    } else {
+        root->left = createNode();
     }
-    if(raiz->right != NULL){
-        adicionar_no(raiz->right);
-    }else{
-        raiz->right = node_create();
+
+    // Traverse and add to the right branch
+    if (root->right != NULL) {
+        addNode(root->right);
+    } else {
+        root->right = createNode();
     }
-    return;
 }
 
-//de fato cria a arvore
+nodeNinja* createTree(){
+    nodeNinja* root = createNode();
 
-t_node* tree_create(){
-    t_node* raiz = node_create();
-    for(int i =0;i < 4;i++){
-        adicionar_no(raiz);
+    for(int i = 0;i < 4;i++){
+        addNode(root);
     }
-    return raiz;    
+
+    return root;
 }
 
-
-//libera memoria da arvore 
-
-void tree_free(t_node* tree){
-    if(tree->left != NULL){
-        tree_free(tree->left);
+void freeMemoryTree(nodeNinja* treeNinja){
+    if(tree == NULL){
+        return;
     }
-    if(tree->right != NULL){
-        tree_free(tree->right);
-    }
+
+    freeMemoryTree(tree->left);
+    freeMemoryTree(tree->right);
     free(tree);
-    return;
+
 }
 
-//insere da lista na arvore
-
-void tree_no(t_node* root, t_list* lista){
-    if(root != NULL){
-        if(root->left == NULL && root->right == NULL){
-            root->ninja = lista->primeiro->ninja;
-            lista->primeiro = lista->primeiro->proximo;
-        }
-        tree_no(root->left, lista);
-        tree_no(root->right, lista);
+void nodeTree(nodeNinja* root, list* list) {
+    if (root == NULL || list == NULL || list->first == NULL) {
+        return; // Base case: stop if tree or list is empty
     }
+
+    // If the current node is a leaf
+    if (root->left == NULL && root->right == NULL) {
+        if (list->first != NULL) {
+            root->ninja = list->first->ninja; // Assign Ninja to the leaf node
+            list->first = list->first->next;  // Move to the next element in the list
+            list->countNinja--;               // Decrement the ninja count
+        } else {
+            fprintf(stderr, "Error: List exhausted before filling all leaf nodes.\n");
+        }
+        return; // Leaf nodes do not require further recursion
+    }
+
+    // Recursively traverse the left and right subtrees
+    nodeTree(root->left, list);
+    nodeTree(root->right, list);
 }
 
-//TORNEIO
- 
-int tree_leaf(t_node* root, Ninja* ninja){    
-    if(root != NULL && root->left != NULL && root->right != NULL) {
+int leafTree(nodeNinja* root, elementNinja* ninja) {
+    if (root != NULL && root->left != NULL && root->right != NULL) {
         static int choose = 0;
         static int chosen = 0;
-        //no folha
-        if(root->left->ninja != NULL && root->right->ninja != NULL){
-            Ninja* one = root->left->ninja;
-            Ninja* two = root->right->ninja;        
-            //localizar o ninja escolhido
-            if(ninja == root->left->ninja || ninja == root->right->ninja){
-				    chosen = choose;
-                    //atribuir ninja para one se for igual ao escolhido
-					Ninja *eu = ninja == one ? one : two, *tu = ninja == one ? two : one;
-					printf("\n\033[1;34mSeu ninja: %s\033[0m\n", eu->nome);
-                    //imprime o ninja com XX
-                    imprime_ninja(ninja, chosen);
-                    printf("\n\033[1;34mSeu Adversário: %s\033[0m\n",tu->nome);
-                        do{
-        	                printf("\nSelecione um atributo : ");
-                            scanf("%d", &choose);
-                        } while(choose == chosen || choose <= 0 || choose > 4);
-                
-                    root->ninja = fight(one, two, choose);
-                    system("clear");
-                    loggi(one, two, choose);
 
-                    if(root->ninja == ninja)
-                        winnerLoggi(one, two, choose);
-                    else
-                        loserLoggi(one, two, choose);
+        // Only proceed if both left and right nodes have valid ninjas
+        if (root->left->ninja != NULL && root->right->ninja != NULL) {
+            Ninja* first = root->left->ninja;
+            Ninja* second = root->right->ninja;
 
-                    if(root->ninja != ninja)
-				        return 1;
-            }else{
-            	int atributo_rand = (rand()%4) + 1;
-                loggi(one, two, atributo_rand);
-            	root->ninja = fight(one, two, atributo_rand);
-			}           
+            // Find the chosen ninja
+            if (ninja == root->left->ninja || ninja == root->right->ninja) {
+                chosen = choose;
+
+                Ninja *firstNinja = (ninja == one ? one : two), *secondNinja = ninja == one ? two : one;
+                printf("\n\033[1;34mYour Ninja: %s\033[0m\n", firstNinja->name);
+                printNinjaElementIndex(ninja, chosen);
+                printf("\n\033[1;34mYour Opponent: %s\033[0m\n", secondNinja->nome);
+
+                // User selects an attribute
+                do {
+                    printf("\nSelect an attribute (1-4): ");
+                    if (scanf("%d", &choose) != 1) {
+                        while(getchar() != '\n');  // Clear invalid input
+                        printf("Invalid input! Please enter a number between 1 and 4.\n");
+                    }
+                } while (choose == chosen || choose <= 0 || choose > 4);
+
+                // Run the fight
+                root->ninja = fight(one, two, choose);
+                system("clear");
+
+                logger(one, two, choose);
+
+                // Log the result
+                if (root->ninja == ninja)
+                    printWinner(one, two, choose);
+                else
+                    printLoser(one, two, choose);
+
+                // If the user lost, return 1
+                if (root->ninja != ninja)
+                    return 1;
+            } else {
+                // Random battle if ninja is not chosen
+                int randomAttribute = (rand() % 4) + 1;
+                logger(one, two, randomAttribute);
+                root->ninja = fight(one, two, randomAttribute);
+            }
+
+            // Reset ninjas in both left and right children
             root->left->ninja = NULL;
             root->right->ninja = NULL;
         }
-        
-       	    if(tree_leaf(root->left,ninja) != 0) return 1;
-        	if(tree_leaf(root->right,ninja) != 0) return 1;
-  }
+
+        // Continue recursive traversal of left and right subtrees
+        if (leafTree(root->left, ninja) != 0) return 1;
+        if (leafTree(root->right, ninja) != 0) return 1;
+    }
     return 0;
 }
 
 
-// Luta entre os integrantes
+Ninja* fightNinja(Ninja* firstNinja, Ninja* secondNinja, int attribute) {
+    // Ensure we have valid ninjas
+    if (firstNinja == NULL || secondNinja == NULL) {
+        printf("Error: Invalid ninja.\n");
+        return NULL; // Return NULL if either ninja is invalid
+    }
 
-Ninja* fight(Ninja* ninja_one, Ninja* ninja_two, int attribute){
-    switch(attribute){
-        case 1: 
-            if(ninja_one->ninjutsu >= ninja_two->ninjutsu){
-                return ninja_one;
-            }else{
-                return ninja_two;
-            }
-            break;
-        case 2: 
-            if(ninja_one->genjutsu >= ninja_two->genjutsu){
-                return ninja_one;
-            }else{
-                return ninja_two;
-            }
-            break;
-        case 3: 
-            if(ninja_one->taijutsu >= ninja_two->taijutsu){
-                return ninja_one;
-            }else{
-                return ninja_two;
-            }
-            break;
-        case 4: 
-            if(ninja_one->defesa >= ninja_two->defesa){
-                return ninja_one;
-            }else{
-                return ninja_two;
-            }
-            break;
+    switch(attribute) {
+        case 1: // Ninjutsu
+            return (firstNinja->ninjutsu >= secondNinja->ninjutsu) ? firstNinja : secondNinja;
+        case 2: // Genjutsu
+            return (firstNinja->genjutsu >= secondNinja->genjutsu) ? firstNinja : secondNinja;
+        case 3: // Taijutsu
+            return (firstNinja->taijutsu >= secondNinja->taijutsu) ? firstNinja : secondNinja;
+        case 4: // Defesa
+            return (firstNinja->defesa >= secondNinja->defesa) ? firstNinja : secondNinja;
         default:
-            printf("a");
-            break;
+            printf("Error: Invalid attribute.\n");
+            return NULL; // Return NULL on invalid attribute
     }
 }
 
-//printa a arvore em pre ordem
-
-void tree_print_preorder(t_node* root){
+void printTreePreOrderAlgorithm(nodeNinja* root){
     if(root == NULL){
         return;
     }
-    print_ninja(root->ninja);
-    tree_print_preorder(root->left);
-    tree_print_preorder(root->right);
-}//end print arvore()
 
-void printGivenLevel(t_node* raiz, int level){
-    static int nivel_atual = -1;
-		nivel_atual++;
-    if(raiz != NULL)
-    	if(level == nivel_atual && raiz->ninja != NULL){
-      	  printf("%s [%d] \n", raiz->ninja->nome, raiz->ninja->ninjutsu);
-    	}
-    	else{
-      	printGivenLevel(raiz->left, level);
-        printGivenLevel(raiz->right, level);
-    	}
+   if (root->ninja != NULL) {
+           printNinja(root->ninja);
+       } else {
+           printf("No ninja at this node.\n");
+       }
 
-		nivel_atual--;
+    printTreePreOrderAlgorithm(root->left);
+    printTreePreOrderAlgorithm(root->right);
 }
 
-int height(t_node* no){ 
-    if (no==NULL) 
-        return 0; 
-    else
-    { 
-        int lheight = height(no->left); 
-        int rheight = height(no->right); 
-  
-        if (lheight > rheight) 
-            return(lheight+1); 
-        else return(rheight+1); 
-    } 
-} 
-
-void printLevelOrder(t_node* raiz){
-    int h = height(raiz);
-    for(int i = 0; i < h; i++){
-        printGivenLevel(raiz, i);
-			printf("\n");
+void printGivenLevel(nodeNinja* root, int level, int updatedLevel) {
+    if (root == NULL) {
+        return; // Return if the node is NULL
     }
 
+    // Check if we are at the correct level
+    if (level == updatedLevel && root->ninja != NULL) {
+        // Print ninja information at the given level
+        printf("%s [%d]\n", root->ninja->nome, root->ninja->ninjutsu);
+    } else {
+        // Recursively print left and right children at the next level
+        printGivenLevel(root->left, level, updatedLevel + 1);
+        printGivenLevel(root->right, level, updatedLevel + 1);
+    }
+}
+
+int height(nodeNinja* node) {
+    if (node == NULL) {
+        return 0;  // Base case: The height of an empty tree is 0
+    } else {
+        // Recursively compute the height of the left and right subtrees
+        int lheight = height(node->left);
+        int rheight = height(node->right);
+
+        // Return the larger of the two heights, plus 1 for the current node
+        return (lheight > rheight) ? lheight + 1 : rheight + 1;
+    }
+}
+
+void printLevelOrder(nodeNinja* root) {
+    int h = height(root);  // Get the height of the tree
+    // If the tree is empty, h will be 0, and the loop won't execute.
+    for (int i = 0; i < h; i++) {
+        printGivenLevel(root, i);  // Print all nodes at level 'i'
+        printf("\n");  // Print a newline after each level
+    }
 }
